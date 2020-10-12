@@ -39,11 +39,8 @@ public class TestClient extends HttpServlet {
 		//create port and specify the endPoint URL
 		PersonServiceV1 personServicePort = new PersonServiceV1_Service().getPersonServiceV1Port();
 		BindingProvider bindingProvider = (BindingProvider) personServicePort;
-		//bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"https://ap11236-pfspringsample-soapservercodefirst.ngc02.staging.echonet/services/PersonServiceV1");
 		
-		bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"https://localhost:9444/wsdlconso/PersonServiceV1");
-		
-		
+		bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"https://localhost:9443/wsdlconso/PersonServiceV1");
 		
 		//call
 		PingStatus pingStatus = personServicePort.ping();
