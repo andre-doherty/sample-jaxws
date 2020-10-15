@@ -31,4 +31,5 @@
 
     <webApplication location="${app.location}" contextRoot="${app.context}" name="${app.name}" />
         
+    <logging traceSpecification="SSLChannel=all:com.ibm.ws.ssl.*=all:com.ibm.websphere.ssl=all:com.ibm.wsspi.ssl.*=all" />
 </server>
