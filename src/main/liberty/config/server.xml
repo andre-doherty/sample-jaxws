@@ -1,35 +1,26 @@
 <server description="sample-jaxws">
-
-    <!-- Enable features EE6 -->
-     <featureManager>
-         <feature>jsp-2.2</feature> 
-         <feature>jaxws-2.2</feature> 
-         <feature>ssl-1.0</feature> 
-         <feature>jaxrs-1.1</feature> 
-     </featureManager> 
-
-    <!-- Enable features EE7 -->
-	<!--featureManager>
-        <feature>jsp-2.3</feature>        
+    
+    <featureManager>
+		<feature>jsp-2.3</feature>        
         <feature>jaxws-2.2</feature>
-        <feature>transportSecurity-1.0</feature>
-        <feature>jaxrs-2.0</feature>
-    </featureManager-->
+        <feature>beanValidation-2.0</feature>
+        <feature>cdi-2.0</feature>
+	</featureManager>
 
-    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint" />
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint" />
 		
-	<keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/key.p12" password="${keystore_password}" type="PKCS12"/>
+<!--	<keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/key.p12" password="${keystore_password}" type="PKCS12"/>-->
 
-    <sslDefault outboundSSLRef="alternateSSLSettings" />
+<!--    <sslDefault outboundSSLRef="alternateSSLSettings" />-->
 
-    <!-- SSL configuration for outbound SSL connections -->
-    <ssl id="alternateSSLSettings" keyStoreRef="alternateKeyStore" trustStoreRef="alternateTrustStore" />
+<!--     SSL configuration for outbound SSL connections -->
+<!--    <ssl id="alternateSSLSettings" keyStoreRef="alternateKeyStore" trustStoreRef="alternateTrustStore" />-->
 
-    <keyStore id="alternateKeyStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />
+<!--    <keyStore id="alternateKeyStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />-->
 
-    <keyStore id="alternateTrustStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />
+<!--    <keyStore id="alternateTrustStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />-->
 
     <webApplication location="${app.location}" contextRoot="${app.context}" name="${app.name}" />
         
-    <logging traceSpecification="SSLChannel=all:com.ibm.ws.ssl.*=all:com.ibm.websphere.ssl=all:com.ibm.wsspi.ssl.*=all" />
+<!--    <logging traceSpecification="SSLChannel=all:com.ibm.ws.ssl.*=all:com.ibm.websphere.ssl=all:com.ibm.wsspi.ssl.*=all" />-->
 </server>

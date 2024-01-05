@@ -1,136 +1,209 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.bnpp.pf.demo</groupId>
-    <artifactId>sample-jaxws</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bnpp.pf.demo</groupId>
+	<artifactId>sample-jaxws</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
-    <properties>
-        <jdk.version>1.8</jdk.version>
-        <!-- wlp wavdev plugin -->
-        <testServerHttpPort>9080</testServerHttpPort>
-        <testServerHttpsPort>9443</testServerHttpsPort>
-        <moduleName>${project.artifactId}</moduleName>
-        <warContext>/</warContext>
-    </properties>
+	<properties>
+		<jdk.version>1.8</jdk.version>
+		<!-- wlp wavdev plugin -->
+		<testServerHttpPort>9080</testServerHttpPort>
+		<testServerHttpsPort>9443</testServerHttpsPort>
+		<moduleName>${project.artifactId}</moduleName>
+		<warContext>/</warContext>
+	</properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>io.openliberty.tools</groupId>
-                <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.2.2</version>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>io.openliberty.tools</groupId>
+				<artifactId>liberty-maven-plugin</artifactId>
+				<version>3.9</version>
 
-                <configuration>
-                    <!--assemblyArtifact> <groupId>io.openliberty</groupId> <artifactId>openliberty-runtime</artifactId> <version>19.0.0.6</version> </assemblyArtifact -->
-                    <assemblyArtifact>
-			<groupId>com.ibm.websphere.appserver.runtime</groupId>
-			<artifactId>wlp-javaee7</artifactId>
-			<version>20.0.0.10</version>
-                    </assemblyArtifact>
-                    <stripVersion>true</stripVersion>
-                    <looseApplication>true</looseApplication>
+				<configuration>
+					<assemblyArtifact>
+						<groupId>com.ibm.websphere.appserver.runtime</groupId>
+						<artifactId>wlp-kernel</artifactId>
+						<version>23.0.0.9</version>
+					</assemblyArtifact>
+					<stripVersion>true</stripVersion>
+					<looseApplication>true</looseApplication>
 
-                    <bootstrapProperties>
-                        <default.http.port>${testServerHttpPort}</default.http.port>
-                        <default.https.port>${testServerHttpsPort}</default.https.port>
-                        <app.context>${warContext}</app.context>
-                        <app.name>${moduleName}</app.name>
-                        <app.location>${project.artifactId}.war</app.location>
-                        <server.start.wait.time>30</server.start.wait.time>
-                    </bootstrapProperties>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>create</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+					<bootstrapProperties>
+						<default.http.port>${testServerHttpPort}</default.http.port>
+						<default.https.port>${testServerHttpsPort}</default.https.port>
+						<app.context>${warContext}</app.context>
+						<app.name>${moduleName}</app.name>
+						<app.location>${project.artifactId}.war</app.location>
+						<server.start.wait.time>30</server.start.wait.time>
+					</bootstrapProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install-liberty-and-application</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>create</goal>
+							<goal>install-feature</goal>
+							<goal>deploy</goal>
+						</goals>
+						<configuration>
+							<features>
+								<acceptLicense>true</acceptLicense>
+							</features>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-            <!-- Generate wsdl in order to package and package them in jar file -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.6</version>
+			<!-- Generate wsdl in order to package and package them in jar file -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.6</version>
 
-                <dependencies>
-                    <!-- java beans contains validations annotations, the plugin need all librairies to compile them maven plugins doesn't see the version 
+				<dependencies>
+					<!-- java beans contains validations annotations, the plugin need all librairies to compile them
+					maven plugins doesn't see the version 
                         managed in dependencyManagement, we need to duplicate them -->
-                    <dependency>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
-                        <version>1.1.0.Final</version>
-                    </dependency>
+					<dependency>
+						<groupId>javax.validation</groupId>
+						<artifactId>validation-api</artifactId>
+						<version>2.0.1.Final</version>
+					</dependency>
+					<dependency>
+						<groupId>jakarta.xml.bind</groupId>
+						<artifactId>jakarta.xml.bind-api</artifactId>
+						<version>2.3.3</version>
+					</dependency>
+					<!-- JAXWS -->
+					<dependency>
+						<groupId>jakarta.jws</groupId>
+						<artifactId>jakarta.jws-api</artifactId>
+						<version>2.1.0</version>
+					</dependency>
+					<dependency>
+						<groupId>jakarta.xml.ws</groupId>
+						<artifactId>jakarta.xml.ws-api</artifactId>
+						<version>2.3.3</version>
+					</dependency>
 
-                </dependencies>
+				</dependencies>
 
-                <executions>
-                    <execution>
-                        <id>wsdlimport</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <wsdlDirectory>${basedir}/src/main/resources/META-INF/wsdl</wsdlDirectory>
-                            <wsdlFiles>
-                                <wsdlFile>PersonService.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <!--target>2.2</target -->
-                            <bindingFiles>
-                                <bindingFile>bindings.xml</bindingFile>
-                            </bindingFiles>
-                            <packageName>com.bnpp.pf.tes.demo.person</packageName>
-                            <staleFile>${project.build.directory}/jaxws/stale/wsdl.wsdlimport.done</staleFile>
-                            <verbose>true</verbose>
-                            <xdebug>true</xdebug>
-                            <wsdlLocation>http://www.toto.com/wsdl/PersonService.wsdl</wsdlLocation>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+				<executions>
+					<execution>
+						<id>personService</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>wsgen</goal>
+						</goals>
+						<configuration>
+							<verbose>true</verbose>
+							<genWsdl>true</genWsdl>
+							<inlineSchemas>true</inlineSchemas>
+							<sei>com.bnpp.pf.tes.demo.PersonPublicationImpl</sei>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${project.build.directory}/generated-sources/wsdl/</directory>
+							<targetPath>WEB-INF/classes/META-INF/wsdl</targetPath>
+							<includes>
+								<include>*.wsdl</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+
+					<execution>
+						<id>add-source</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<!-- for jaxws -->
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/generated-sources/wsdl/</directory>
+									<targetPath>META-INF/wsdl</targetPath>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <source>1.6</source>
-                            <target>1.6</target>
-                            <showWarnings>true</showWarnings>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+							<showWarnings>true</showWarnings>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-        </plugins>
+		</plugins>
+	</build>
 
+	<dependencies>
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>8.0.0</version>
+			<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>jakarta.jws</groupId>
+			<artifactId>jakarta.jws-api</artifactId>
+			<version>2.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>
 
-    </build>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
 
-    <dependencies>
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-    </dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+	</dependencies>
 
 </project>
