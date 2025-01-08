@@ -1,20 +1,12 @@
 <server description="sample-jaxws">
 
-    <!-- Enable features EE6 -->
+    <!-- Enable features EE10 -->
      <featureManager>
-         <feature>jsp-2.2</feature> 
-         <feature>jaxws-2.2</feature> 
-         <feature>ssl-1.0</feature> 
-         <feature>jaxrs-1.1</feature> 
+        <feature>localConnector-1.0</feature>
+        <feature>xmlWS-4.0</feature>
+        <feature>cdi-4.0</feature>
+        <feature>pages-3.1</feature>
      </featureManager> 
-
-    <!-- Enable features EE7 -->
-	<!--featureManager>
-        <feature>jsp-2.3</feature>        
-        <feature>jaxws-2.2</feature>
-        <feature>transportSecurity-1.0</feature>
-        <feature>jaxrs-2.0</feature>
-    </featureManager-->
 
     <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint" />
 		
@@ -31,5 +23,4 @@
 
     <webApplication location="${app.location}" contextRoot="${app.context}" name="${app.name}" />
         
-    <logging traceSpecification="SSLChannel=all:com.ibm.ws.ssl.*=all:com.ibm.websphere.ssl=all:com.ibm.wsspi.ssl.*=all" />
 </server>
