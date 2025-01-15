@@ -1,0 +1,38 @@
+<server description="sample-jaxws">
+
+    <!-- Enable features -->
+<!--     <featureManager> -->
+<!--         <feature>jsp-2.2</feature> -->
+<!--         <feature>cdi-1.0</feature> -->
+<!--         <feature>jaxws-2.2</feature> -->
+<!--         <feature>ejbLite-3.1</feature> -->
+<!--         <feature>transportSecurity-1.0</feature> -->
+<!--         <feature>jaxrs-1.1</feature> -->
+<!--     </featureManager> -->
+
+        <featureManager>
+        <feature>jsp-2.3</feature>
+        <feature>cdi-1.2</feature>
+        <feature>jaxws-2.2</feature>
+        <feature>ejbLite-3.2</feature>
+        <feature>transportSecurity-1.0</feature>
+        <feature>jaxrs-2.0</feature>
+        </featureManager>
+
+        <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint" />
+		
+		<keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/key.p12" password="${keystore_password}" type="PKCS12"/>
+
+        <sslDefault outboundSSLRef="alternateSSLSettings" />
+
+        <!-- SSL configuration for outbound SSL connections -->
+        <ssl id="alternateSSLSettings" keyStoreRef="alternateKeyStore" trustStoreRef="alternateTrustStore" />
+
+        <keyStore id="alternateKeyStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />
+
+        <keyStore id="alternateTrustStore" location="${server.config.dir}/config/demo.jks" password="secret" type="JKS" />
+
+        <webApplication location="${app.location}" contextRoot="${app.context}" name="${app.name}">
+        </webApplication>
+        <keyStore></keyStore>
+</server>
