@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+	
+	<!-- consuming -->
+	<system systemId="http://www.toto.com/wsdl/PersonService.wsdl" uri="wsdl/PersonService.wsdl"/> 
+    
+    <!-- serving -->
+    <system systemId="PersonService.wsdl" uri="wsdl/PersonService.wsdl"/>
+	
+	
+</catalog>
