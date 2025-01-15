@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
 
 import com.bnpp.pf.tes.demo.person.PersonServiceV1;
 import com.bnpp.pf.tes.demo.person.PersonServiceV1_Service;
@@ -26,8 +27,10 @@ public class TestClient extends HttpServlet {
      */
     public TestClient() {
         super();
-        // TODO Auto-generated constructor stub
     }
+    
+    @WebServiceRef(name="PersonServiceV1")
+    private PersonServiceV1_Service service;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,17 +38,15 @@ public class TestClient extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		
 		//create port and specify the endPoint URL
-		PersonServiceV1 personServicePort = new PersonServiceV1_Service().getPersonServiceV1Port();
+		PersonServiceV1 personServicePort = service.getPersonServiceV1Port();
 		BindingProvider bindingProvider = (BindingProvider) personServicePort;
 		
-		bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"https://localhost:9443/wsdlconso/PersonServiceV1");
+		bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,"https://localhost:9443/PersonServiceV1");
 		
 		//call
 		PingStatus pingStatus = personServicePort.ping();
 		response.getWriter().append(" pinged: ").append(pingStatus.value());
-		
 	}
 
 	/**
