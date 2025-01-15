@@ -1,4 +1,4 @@
-package com.bnpp.pf.tes.demo;
+package demo;
 
 public class Person {
 
