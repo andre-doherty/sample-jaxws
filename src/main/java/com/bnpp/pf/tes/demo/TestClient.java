@@ -1,4 +1,4 @@
-package com.bnpp.pf.tes.demo;
+package demo;
 
 import java.io.IOException;
 
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 
-import com.bnpp.pf.tes.demo.person.PersonServiceV1;
-import com.bnpp.pf.tes.demo.person.PersonServiceV1_Service;
-import com.bnpp.pf.tes.demo.person.PingStatus;
+import demo.person.PersonServiceV1;
+import demo.person.PersonServiceV1_Service;
+import demo.person.PingStatus;
 
 
 @WebServlet(urlPatterns = "/demo")

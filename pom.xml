@@ -86,7 +86,7 @@
                             <bindingFiles>
                                 <bindingFile>bindings.xml</bindingFile>
                             </bindingFiles>
-                            <packageName>com.bnpp.pf.tes.demo.person</packageName>
+                            <packageName>demo.person</packageName>
                             <staleFile>${project.build.directory}/jaxws/stale/wsdl.wsdlimport.done</staleFile>
                             <verbose>true</verbose>
                             <xdebug>true</xdebug>
